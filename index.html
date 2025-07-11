@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Traductor Español a Shavian</title>
+<title>Traductor EspaÃ±ol a Shavian</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -22,16 +22,16 @@
 </head>
 <body>
 
-<h1>Traductor Español ? Alfabeto Shavian</h1>
+<h1>Traductor EspaÃ±ol ? Alfabeto Shavian</h1>
 
-<textarea id="inputTexto" placeholder="Escribe aquí el texto en español..."></textarea>
+<textarea id="inputTexto" placeholder="Escribe aquÃ­ el texto en espaÃ±ol..."></textarea>
 <br/>
 <button onclick="traducir()">Traducir</button>
 
 <div id="resultado"></div>
 
 <script>
-// Mapa de letras españolas a símbolos Shavian (usa tus códigos)
+// Mapa de letras espaÃ±olas a sÃ­mbolos Shavian (usa tus cÃ³digos)
 const mapaShavian = {
   a: "??",
   b: "??",
@@ -69,7 +69,7 @@ function traducir() {
     if (mapaShavian[char]) {
       resultado += mapaShavian[char];
     } else {
-      // Si no es letra (espacio, puntuación), lo agrega igual
+      // Si no es letra (espacio, puntuaciÃ³n), lo agrega igual
       resultado += char;
     }
   }
