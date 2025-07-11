@@ -1,584 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Traductor Shavian Ultra Creativo Completo</title>
-<style>
-  /* Reset y estilos base */
-  body, html {
-    margin:0; padding:0; height:100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-x: hidden;
-    transition: background 1s ease, color 1s ease;
-    position: relative;
-    color: #222;
-    background: #f0f8ff;
-  }
-
-  /* Modo día */
-  body.dia {
-    background: linear-gradient(to top, #a2d9ff 0%, #ffffff 100%);
-  }
-
-  /* Modo tarde con efecto atardecer */
-  body.tarde {
-    background: linear-gradient(to top, #f5a623 0%, #fceabb 100%);
-    color: #4a342e;
-  }
-
-  /* Modo noche */
-  body.noche {
-    background: #121212;
-    color: #eee;
-  }
-
-  /* Pasto animado abajo */
-  #pasto {
-    position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(90deg, #2a7a23 0%, #3cb043 50%, #2a7a23 100%);
-    background-size: 200% 100%;
-    animation: moverPasto 6s linear infinite;
-    z-index: 5;
-  }
-  @keyframes moverPasto {
-    0% { background-position: 0 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  /* Reloj digital */
-  #reloj {
-    position: fixed;
-    top: 15px;
-    right: 20px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    background: rgba(0,0,0,0.2);
-    padding: 6px 12px;
-    border-radius: 15px;
-    color: #000;
-    font-family: monospace;
-    user-select: none;
-    z-index: 10;
-    cursor: pointer;
-  }
-
-  /* Contenedor principal */
-  #app {
-    max-width: 700px;
-    margin: 50px auto 120px;
-    padding: 15px 25px;
-    background: rgba(255,255,255,0.95);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
-    z-index: 10;
-    position: relative;
-  }
-
-  /* Titulo y texto */
-  h1 {
-    text-align: center;
-    margin-bottom: 0.5em;
-  }
-  label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-  }
-  textarea, input[type=text] {
-    width: 100%;
-    font-size: 1.1rem;
-    padding: 8px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-family: inherit;
-    resize: vertical;
-  }
-  button {
-    background: #5cba47;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    margin-bottom: 20px;
-    margin-right: 10px;
-  }
-  button:hover {
-    background: #4a9c39;
-  }
-
-  /* Resultado traducido con efecto parpadeo */
-  #resultado {
-    font-size: 1.4rem;
-    min-height: 60px;
-    background: #e0f7e9;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 20px;
-    font-family: 'Courier New', Courier, monospace;
-    animation: parpadeo 3s infinite alternate;
-    user-select: text;
-  }
-  @keyframes parpadeo {
-    0% {opacity: 1;}
-    100% {opacity: 0.8;}
-  }
-
-  /* Racha */
-  #racha {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.4rem;
-    margin-bottom: 20px;
-    color: #3a6f3a;
-  }
-
-  /* Mensajes motivadores */
-  #mensajeRacha {
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 25px;
-    color: #2d6a2d;
-    text-shadow: 1px 1px 1px #c0f0c0;
-  }
-
-  /* Gatos corriendo */
-  .gato {
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    background: url('https://i.imgur.com/Vj3OdJz.png') no-repeat center/contain;
-    pointer-events: none;
-    animation-timing-function: linear;
-    z-index: 20;
-  }
-  @keyframes correrDerecha {
-    0% { left: -60px; }
-    100% { left: 110%; }
-  }
-
-  /* Confeti */
-  #confeti {
-    pointer-events: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 30;
-    overflow: visible;
-  }
-  .confetti-piece {
-    position: absolute;
-    width: 10px; height: 10px;
-    background-color: #f2a365;
-    opacity: 0.9;
-    animation-name: caerConfetti;
-    animation-timing-function: linear;
-  }
-  @keyframes caerConfetti {
-    0% {transform: translateY(0) rotate(0deg);}
-    100% {transform: translateY(100vh) rotate(360deg);}
-  }
-
-  /* Botones modos */
-  #modos {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  #modos button {
-    background: #ffa726;
-  }
-  #modos button:hover {
-    background: #f57c00;
-  }
-
-  /* Modo perro */
-  body.perro {
-    background: linear-gradient(to top, #f3e5ab 0%, #ffeabf 100%);
-    color: #5a3e1b;
-  }
-
-  /* Modo gangster */
-  body.gangster {
-    background: black;
-    color: limegreen;
-    font-family: 'Courier New', Courier, monospace;
-  }
-
-  /* Gatito impaciente */
-  #gatitoImpaciente {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    background: url('https://i.imgur.com/WfX1UNN.png') no-repeat center/contain;
-    display: none;
-    z-index: 50;
-  }
-
-  /* Alfabeto Shavian estilo visual */
-  #alfabeto {
-    margin: 15px 0;
-    text-align: center;
-    user-select: none;
-    font-family: monospace;
-  }
-  .letra {
-    display: inline-block;
-    font-size: 1.6rem;
-    background: #d9f0d9;
-    margin: 0 6px 6px 0;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: default;
-  }
-  .letra.removida {
-    opacity: 0.3;
-    text-decoration: line-through;
-  }
-
-  /* Frase del día */
-  #fraseDia {
-    font-style: italic;
-    text-align: center;
-    margin: 20px 0;
-    font-size: 1.3rem;
-    color: #3a3a3a;
-  }
-
-  /* Botón modo avanzado */
-  #modoAvanzadoBtn {
-    display: block;
-    margin: 0 auto 20px;
-    background: gold;
-    color: black;
-    font-weight: bold;
-  }
-
-  /* Corazones que salen al tocar gato */
-  #gatoFeliz {
-    position: fixed;
-    bottom: 90px;
-    left: 20px;
-    width: 80px;
-    height: 80px;
-    background: url('https://i.imgur.com/6W5vNlv.png') no-repeat center/contain;
-    cursor: pointer;
-    user-select: none;
-    z-index: 50;
-  }
-  .corazon {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    background: url('https://i.imgur.com/znU5NZD.png') no-repeat center/contain;
-    animation: subirCorazon 2s ease forwards;
-  }
-  @keyframes subirCorazon {
-    0% {opacity: 1; transform: translateY(0) scale(1);}
-    100% {opacity: 0; transform: translateY(-100px) scale(1.5);}
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Traductor Shavian</title>
+  <style>
+    body.dia { background: #e0f7fa; }
+    body.noche { background: #263238; color: white; }
+    #alfabetoDiv { margin-top: 20px; }
+  </style>
 </head>
 <body class="dia">
-<div id="reloj" title="Haz clic para modo luz negra">00:00:00</div>
 
-<div id="app">
-  <h1>Traductor Shavian Ultra Creativo</h1>
-  
-  <label for="inputTexto">Escribe en Español:</label>
-  <textarea id="inputTexto" rows="4" placeholder="Escribe aquí tu texto..."></textarea>
-  
- <button id="btnTraducir" onclick="traducir()">Traducir</button>
-<button id="btnComenzarLeccion" onclick="comenzarLeccion()">Comenzar Lección</button>
-<button id="btnModoAvanzado" onclick="modoAvanzado()">Modo Avanzado</button>
-<button id="btnResetRacha" style="background:#f44336; margin-left:10px;" onclick="resetearRacha()">Resetear Racha</button>
-  
-  <div id="alfabeto"></div>
-  
-  <div id="resultado" title="Texto traducido con alfabeto Shavian"></div>
-  
-  <div id="racha">Racha actual: 0</div>
-  <div id="mensajeRacha"></div>
-  
-  <div id="fraseDia"></div>
-</div>
+  <h1>Traductor Shavian</h1>
 
-<div id="pasto"></div>
+  <input type="text" id="inputTexto" placeholder="Escribe aquí" />
+  <button id="btnTraducir">Traducir</button>
+  <button id="btnModoAvanzado">Modo avanzado</button>
+  <button id="btnComenzarLeccion">Comenzar lección</button>
 
-<div id="gatoFeliz" title="Tócame para mostrar corazones"></div>
-<div id="gatitoImpaciente" title="¡Estoy esperando tu progreso!"></div>
+  <div id="resultado"></div>
+  <div id="alfabetoDiv"></div>
 
-<div id="confeti"></div>
+  <script>
+    // Variables globales
+    const btnModoAvanzado = document.getElementById('btnModoAvanzado');
+    const btnTraducir = document.getElementById('btnTraducir');
+    const btnComenzarLeccion = document.getElementById('btnComenzarLeccion');
+    const inputTexto = document.getElementById('inputTexto');
+    const resultado = document.getElementById('resultado');
+    const alfabetoDiv = document.getElementById('alfabetoDiv');
 
-<script>
-  // Datos base del alfabeto inventado
-  const alfabeto = {
-    a: '𐑨', b: '𐑚', c: '𐑖', d: '𐑛', e: '𐑧', f: '𐑓', g: '𐑜',
-    h: '𐑣', i: '𐑦', j: '𐑡', k: '𐑒', l: '𐑤', m: '𐑥', n: '𐑯',
-    o: '𐑪', p: '𐑝', q: '𐑑', r: '𐑮', s: '𐑕', t: '𐑑', u: '𐑵',
-    v: '𐑝', w: '𐑢', x: '𐑙', y: '𐑴', z: '𐑟'
-  };
+    let modoAvanzado = false;
 
-  // Frases para el "frase del día"
-  const frases = [
-    "El aprendizaje es la llave del éxito.",
-    "Cada día es una nueva oportunidad.",
-    "Practica y dominarás el alfabeto.",
-    "La constancia vence al talento.",
-    "Aprender es crecer.",
-    "Un paso a la vez.",
-    "Nunca dejes de intentar.",
-    "Tu racha muestra tu dedicación.",
-    "Los errores son lecciones disfrazadas.",
-    "Con paciencia, todo es posible."
-  ];
+    // Alfabeto inventado (ejemplo simple)
+    const alfabeto = {
+      a: 'α',
+      b: 'β',
+      c: 'ç',
+      d: 'δ',
+      e: 'ε',
+      f: 'φ',
+      g: 'γ',
+      h: 'η',
+      i: 'ι',
+      j: 'ϳ',
+      k: 'κ',
+      l: 'λ',
+      m: 'μ',
+      n: 'ν',
+      o: 'ο',
+      p: 'π',
+      q: 'θ',
+      r: 'ρ',
+      s: 'σ',
+      t: 'τ',
+      u: 'υ',
+      v: 'ν',
+      w: 'ω',
+      x: 'χ',
+      y: 'ψ',
+      z: 'ζ'
+    };
 
-  // Variables para estado
-  let racha = Number(localStorage.getItem('racha')) || 0;
-  let letrasRestantes = Object.keys(alfabeto).length;
-  let modoAvanzado = false;
-  let modoActual = 'dia'; // dia, tarde, noche, perro, gangster
-  let progresoLetras = JSON.parse(localStorage.getItem('progresoLetras')) || [];
+    // Función traducir a alfabeto inventado
+    function traducir(texto) {
+      if(modoAvanzado) return texto.toUpperCase();
+      return texto.toLowerCase().split('').map(c => alfabeto[c] || c).join('');
+    }
 
-  // Referencias DOM
-  const inputTexto = document.getElementById('inputTexto');
-  const btnTraducir = document.getElementById('btnTraducir');
-  const resultado = document.getElementById('resultado');
-  const rachaDiv = document.getElementById('racha');
-  const mensajeRacha = document.getElementById('mensajeRacha');
-  const alfabetoDiv = document.getElementById('alfabeto');
-  const btnComenzarLeccion = document.getElementById('btnComenzarLeccion');
-  const fraseDiaDiv = document.getElementById('fraseDia');
-  const btnModoAvanzado = document.getElementById('btnModoAvanzado');
-  const btnResetRacha = document.getElementById('btnResetRacha');
-  const reloj = document.getElementById('reloj');
-  const gatoFeliz = document.getElementById('gatoFeliz');
-  const gatitoImpaciente = document.getElementById('gatitoImpaciente');
-  const confetiContainer = document.getElementById('confeti');
-
-  // Sonidos (usando links gratuitos)
-  const sonidos = {
-    maullido: new Audio('https://freesound.org/data/previews/341/341695_5121236-lq.mp3'), // maullido
-    gruñido: new Audio('https://freesound.org/data/previews/219/219557_4109570-lq.mp3'), // gruñido perro
-    fondoDia: new Audio('https://cdn.pixabay.com/download/audio/2022/03/29/audio_b9f288d8cc.mp3?filename=calm-morning-birds-10892.mp3'),
-    fondoNoche: new Audio('https://cdn.pixabay.com/download/audio/2022/03/25/audio_fa3991d5d6.mp3?filename=calm-night-sounds-10531.mp3'),
-  };
-
-  // Pausar y configurar loop fondo
-  sonidos.fondoDia.loop = true;
-  sonidos.fondoNoche.loop = true;
-
-  // Función traducir a alfabeto inventado
-  function traducir(texto) {
-    if(modoAvanzado) return texto.toUpperCase(); // modo avanzado sin alfabeto
-    return texto.toLowerCase().split('').map(c => {
-      if(progresoLetras.includes(c)) return ''; // letra ya aprendida desaparece
-      return alfabeto[c] || c;
-    }).join('');
-  }
-
-  // Mostrar alfabeto con letras restantes
-  function mostrarAlfabeto() {
-    alfabetoDiv.innerHTML = '';
-    Object.entries(alfabeto).forEach(([letra, simbolo]) => {
-      const span = document.createElement('span');
-      span.className = 'letra';
-      if(progresoLetras.includes(letra)) {
-        span.classList.add('removida');
+    // Mostrar alfabeto (simple)
+    function mostrarAlfabeto() {
+      alfabetoDiv.innerHTML = '';
+      for(let letra in alfabeto) {
+        alfabetoDiv.innerHTML += `<span>${letra} : ${alfabeto[letra]}</span><br>`;
       }
-      span.textContent = simbolo;
-      alfabetoDiv.appendChild(span);
+    }
+
+    // Evento botón traducir
+    btnTraducir.addEventListener('click', () => {
+      const texto = inputTexto.value;
+      resultado.textContent = traducir(texto);
     });
-  }
 
-  // Actualizar racha y guardar en localStorage
-  function actualizarRacha(correcto) {
-    if(correcto) {
-      racha++;
-      mensajeRacha.textContent = "¡Muy bien! Sigue así!";
-      sonidos.maullido.play();
-      mostrarGatoFeliz();
-      if(racha === 50 || racha === 100 || racha === 500) {
-        festejar(racha);
-      }
-    } else {
-      racha = 0;
-      mensajeRacha.textContent = "Oh no! Inténtalo otra vez.";
-      sonidos.gruñido.play();
-      mostrarGatoTriste();
-    }
-    localStorage.setItem('racha', racha);
-    rachaDiv.textContent = "Racha actual: " + racha;
-  }
-
-  // Mostrar gato feliz y corazones
-  function mostrarGatoFeliz() {
-    gatoFeliz.style.display = 'block';
-    for(let i=0; i<5; i++) {
-      crearCorazon();
-    }
-    setTimeout(() => gatoFeliz.style.display = 'block', 3000);
-  }
-
-  // Crear corazon animado
-  function crearCorazon() {
-    const corazon = document.createElement('div');
-    corazon.className = 'corazon';
-    corazon.style.left = (gatoFeliz.offsetLeft + 30) + 'px';
-    corazon.style.bottom = '130px';
-    document.body.appendChild(corazon);
-    setTimeout(() => corazon.remove(), 2000);
-  }
-
-  // Mostrar gato mojado y triste
-  function mostrarGatoTriste() {
-    gatitoImpaciente.style.display = 'block';
-    setTimeout(() => gatitoImpaciente.style.display = 'none', 3000);
-  }
-
-  // Festejo con confeti y gatos corriendo
-  function festejar(num) {
-    crearConfeti();
-    for(let i=0; i<num/10; i++) {
-      crearGatoCorriendo(i*500);
-    }
-    alert(`¡Felicitaciones! Alcanzaste la racha de ${num} lecciones.`);
-  }
-
-  // Crear confeti
-  function crearConfeti() {
-    for(let i=0; i<50; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti-piece';
-      c.style.left = Math.random() * window.innerWidth + 'px';
-      c.style.animationDuration = (2 + Math.random()*3) + 's';
-      c.style.backgroundColor = `hsl(${Math.random()*360}, 70%, 60%)`;
-      confetiContainer.appendChild(c);
-      setTimeout(() => c.remove(), 5000);
-    }
-  }
-
-  // Crear gato corriendo con animación y retraso
-  function crearGatoCorriendo(delay) {
-    const gato = document.createElement('div');
-    gato.className = 'gato';
-    gato.style.top = (Math.random() * (window.innerHeight - 100) + 50) + 'px';
-    gato.style.animationName = 'correrDerecha';
-    gato.style.animationDuration = (3 + Math.random()*3) + 's';
-    gato.style.animationDelay = delay + 'ms';
-    document.body.appendChild(gato);
-    setTimeout(() => gato.remove(), 6000);
-  }
-
-  // Mostrar frase diaria (basado en día del mes)
-  function mostrarFraseDia() {
-    const dia = new Date().getDate();
-    fraseDiaDiv.textContent = frases[dia % frases.length];
-  }
-
-  // Cambiar modo según hora
-  function actualizarModoDia() {
-    const hora = new Date().getHours();
-    document.body.classList.remove('dia','tarde','noche','perro','gangster');
-    if(modoAvanzado) {
-      document.body.classList.add('gangster');
-      pararSonidos();
-    } else {
-      if(hora >= 6 && hora < 14) {
-        modoActual = 'dia';
-        document.body.classList.add('dia');
-        sonidos.fondoDia.play().catch(() => {});
-        sonidos.fondoNoche.pause();
-      } else if(hora >=14 && hora < 19) {
-        modoActual = 'tarde';
-        document.body.classList.add('tarde');
-        sonidos.fondoDia.pause();
-        sonidos.fondoNoche.pause();
+    // Evento botón modo avanzado
+    btnModoAvanzado.addEventListener('click', () => {
+      modoAvanzado = !modoAvanzado;
+      if(modoAvanzado) {
+        btnModoAvanzado.textContent = "Salir Modo Avanzado";
+        alfabetoDiv.style.display = 'none';
       } else {
-        modoActual = 'noche';
-        document.body.classList.add('noche');
-        sonidos.fondoNoche.play().catch(() => {});
-        sonidos.fondoDia.pause();
+        btnModoAvanzado.textContent = "Modo avanzado";
+        alfabetoDiv.style.display = 'block';
       }
-    }
-  }
+    });
 
-  // Parar todos los sonidos de fondo
-  function pararSonidos() {
-    sonidos.fondoDia.pause();
-    sonidos.fondoNoche.pause();
-  }
+    // Evento botón comenzar lección (simplificado)
+    btnComenzarLeccion.addEventListener('click', () => {
+      alert('Función de lección aún no implementada');
+    });
 
-  // Actualizar reloj digital
-  function actualizarReloj() {
-    const ahora = new Date();
-    let h = ahora.getHours().toString().padStart(2,'0');
-    let m = ahora.getMinutes().toString().padStart(2,'0');
-    let s = ahora.getSeconds().toString().padStart(2,'0');
-    reloj.textContent = `${h}:${m}:${s}`;
-  }
-
-  // Traducir texto y mostrar
-  btnTraducir.addEventListener('click', () => {
-    const texto = inputTexto.value.trim();
-    if(!texto) return alert("Por favor escribe algo para traducir.");
-    const traducido = traducir(texto);
-    resultado.textContent = traducido;
-  });
-
-  // Mostrar alfabeto al inicio
-  mostrarAlfabeto();
-
-  // Mostrar frase del día al cargar
-  mostrarFraseDia();
-
-  // Actualizar racha y mostrar
-  rachaDiv.textContent = "Racha actual: " + racha;
-
-  // Comenzar lección
-  btnComenzarLeccion.addEventListener('click', () => {
-    if(progresoLetras.length >= Object.keys(alfabeto).length) {
-      alert("¡Ya has completado todas las letras!");
-      return;
-    }
-    // Tomar una letra aleatoria no aprendida
-    const disponibles = Object.keys(alfabeto).filter(l => !progresoLetras.includes(l));
-    const letra = disponibles[Math.floor(Math.random()*disponibles.length)];
-    const simbolo = alfabeto[letra];
-
-    // Mostrar letra y pedir usuario que escriba letra correcta
-    const usuario = prompt(`¿Qué letra es esta? ${simbolo}`);
-    if(!usuario) {
-      actualizarRacha(false);
-      return;
-    }
-    if(usuario.toLowerCase() === letra) {
-      progresoLetras.push(letra);
-      localStorage.setItem('progresoLetras', JSON.stringify(progresoLetras));
-      mostrarAlfabeto();
-      actualizarRacha(true);
-    } else {
-      actualizarRacha(false);
-    }
-  });
-
-  // Botón modo avanzado
-  btnModoAvanzado.addEventListener('click', () => {
-    modoAvanzado = !modoAvanzado;
-    if(modoAvanzado) {
-      btnModoAvanzado.textContent = "Salir Modo Avanzado";
-      alfabetoDiv.style.display = 'none';
-      resultado.textContent = '';
-      inputTexto.value = '';
-      pararSonidos();
-      document.body.classList.remove('dia','tarde','noche','perro');
-      docum
+    // Al iniciar
+    mostrarAlfabeto();
+  </script>
+</body>
+</html>
