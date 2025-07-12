@@ -2,105 +2,126 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Traductor Shavian</title>
+  <title>Traductor Cat 1.0</title>
   <style>
-    body.dia { background: #e0f7fa; }
-    body.noche { background: #263238; color: white; }
-    #alfabetoDiv { margin-top: 20px; }
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', sans-serif;
+      overflow: hidden;
+      background: linear-gradient(to top, #fff2e6, #ffe0b2);
+    }
+
+    #logo {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: moverLogo 4s infinite;
+    }
+
+    @keyframes moverLogo {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    #gato {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: url('gato.png') no-repeat center center;
+      background-size: cover;
+      transition: left 0.4s, top 0.4s;
+    }
+
+    #traductor {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    #boton-secreto {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    #fiesta {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      color: white;
+      font-size: 40px;
+      text-align: center;
+      padding-top: 200px;
+    }
   </style>
 </head>
-<body class="dia">
+<body>
 
-  <h1>Traductor Shavian</h1>
+  <img id="logo" src="logo-cat-animado.png" width="300" alt="Logo Traductor Cat" />
 
-  <input type="text" id="inputTexto" placeholder="Escribe aquí" />
-  <button id="btnTraducir">Traducir</button>
-  <button id="btnModoAvanzado">Modo avanzado</button>
-  <button id="btnComenzarLeccion">Comenzar lección</button>
+  <div id="gato" style="left: 100px; top: 100px;"></div>
 
-  <div id="resultado"></div>
-  <div id="alfabetoDiv"></div>
+  <div id="traductor">
+    <h3>Traductor Cat</h3>
+    <input type="text" id="entrada" placeholder="Escribe en Español">
+    <button onclick="traducir()">Traducir</button>
+    <p id="salida"></p>
+  </div>
+
+  <button id="boton-secreto" onclick="activarBotonFiesta()">
+    🎉
+  </button>
+
+  <div id="fiesta">
+    🎶 ¡Fiesta Gatuna! 🎶<br />
+    Logro desbloqueado: El botón de la fiesta
+  </div>
 
   <script>
-    // Variables globales
-    const btnModoAvanzado = document.getElementById('btnModoAvanzado');
-    const btnTraducir = document.getElementById('btnTraducir');
-    const btnComenzarLeccion = document.getElementById('btnComenzarLeccion');
-    const inputTexto = document.getElementById('inputTexto');
-    const resultado = document.getElementById('resultado');
-    const alfabetoDiv = document.getElementById('alfabetoDiv');
+    let contadorSecreto = 0;
+    let gato = document.getElementById("gato");
 
-    let modoAvanzado = false;
-
-    // Alfabeto inventado (ejemplo simple)
-    const alfabeto = {
-      a: 'α',
-      b: 'β',
-      c: 'ç',
-      d: 'δ',
-      e: 'ε',
-      f: 'φ',
-      g: 'γ',
-      h: 'η',
-      i: 'ι',
-      j: 'ϳ',
-      k: 'κ',
-      l: 'λ',
-      m: 'μ',
-      n: 'ν',
-      o: 'ο',
-      p: 'π',
-      q: 'θ',
-      r: 'ρ',
-      s: 'σ',
-      t: 'τ',
-      u: 'υ',
-      v: 'ν',
-      w: 'ω',
-      x: 'χ',
-      y: 'ψ',
-      z: 'ζ'
-    };
-
-    // Función traducir a alfabeto inventado
-    function traducir(texto) {
-      if(modoAvanzado) return texto.toUpperCase();
-      return texto.toLowerCase().split('').map(c => alfabeto[c] || c).join('');
-    }
-
-    // Mostrar alfabeto (simple)
-    function mostrarAlfabeto() {
-      alfabetoDiv.innerHTML = '';
-      for(let letra in alfabeto) {
-        alfabetoDiv.innerHTML += `<span>${letra} : ${alfabeto[letra]}</span><br>`;
-      }
-    }
-
-    // Evento botón traducir
-    btnTraducir.addEventListener('click', () => {
-      const texto = inputTexto.value;
-      resultado.textContent = traducir(texto);
-    });
-
-    // Evento botón modo avanzado
-    btnModoAvanzado.addEventListener('click', () => {
-      modoAvanzado = !modoAvanzado;
-      if(modoAvanzado) {
-        btnModoAvanzado.textContent = "Salir Modo Avanzado";
-        alfabetoDiv.style.display = 'none';
-      } else {
-        btnModoAvanzado.textContent = "Modo avanzado";
-        alfabetoDiv.style.display = 'block';
+    document.addEventListener("click", (e) => {
+      if (e.target.id !== "boton-secreto") {
+        gato.style.left = e.pageX - 40 + "px";
+        gato.style.top = e.pageY - 40 + "px";
       }
     });
 
-    // Evento botón comenzar lección (simplificado)
-    btnComenzarLeccion.addEventListener('click', () => {
-      alert('Función de lección aún no implementada');
-    });
+    function traducir() {
+      const entrada = document.getElementById("entrada").value.toLowerCase();
+      let salida = '';
+      const diccionario = {
+        hola: 'ψøλλ', 
+        gato: 'ξατø',
+        pez: 'µíʒ', 
+        batalla: 'βλταλλια'
+      };
+      salida = diccionario[entrada] || 'Traducción no encontrada';
+      document.getElementById("salida").innerText = salida;
+    }
 
-    // Al iniciar
-    mostrarAlfabeto();
+    function activarBotonFiesta() {
+      contadorSecreto++;
+      if (contadorSecreto >= 3) {
+        document.getElementById("fiesta").style.display = "block";
+        // Aquí desbloquearías el logro real
+      }
+    }
   </script>
 </body>
 </html>
